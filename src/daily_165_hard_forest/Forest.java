@@ -1,13 +1,13 @@
-package daily_165_hard_forrest;
+package daily_165_hard_forest;
 
-public class Forrest {
+public class Forest {
 	
-	private ForrestTile[][] grid;
+	private ForestTile[][] grid;
 	private int dimension;
 	
-	Forrest(int dimension) {
-		//create a forrest with specified dimension
-		grid = new ForrestTile[dimension][dimension];
+	Forest(int dimension) {
+		//create a forest with specified dimension
+		grid = new ForestTile[dimension][dimension];
 		this.dimension = dimension;
 		
 		populate();

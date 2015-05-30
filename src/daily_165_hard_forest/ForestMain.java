@@ -1,6 +1,6 @@
-package daily_165_hard_forrest;
+package daily_165_hard_forest;
 
-public class ForrestMain {
+public class ForestMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

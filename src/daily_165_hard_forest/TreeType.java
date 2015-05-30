@@ -1,4 +1,4 @@
-package daily_165_hard_forrest;
+package daily_165_hard_forest;
 
 public enum TreeType {
 	SAPLING, TREE, ELDER;

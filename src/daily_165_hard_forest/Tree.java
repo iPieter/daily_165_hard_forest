@@ -1,4 +1,4 @@
-package daily_165_hard_forrest;
+package daily_165_hard_forest;
 
 public class Tree {
 	private TreeType type;

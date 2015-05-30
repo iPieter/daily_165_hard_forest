@@ -1,11 +1,11 @@
-package daily_165_hard_forrest;
+package daily_165_hard_forest;
 
-public class ForrestTile {
+public class ForestTile {
 	private Tree tree = null;
 	private Bear bear = null;
 	private Lumberjack lumberjack = null;
 	
-	ForrestTile(boolean tree, boolean bear, boolean lumberjack) {
+	ForestTile(boolean tree, boolean bear, boolean lumberjack) {
 		//if booleans are true, populate with a new T
 		if (tree) {
 			this.tree = new Tree();

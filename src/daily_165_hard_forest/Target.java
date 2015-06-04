@@ -1,5 +1,5 @@
 package daily_165_hard_forest;
 
-public class Bear {
-	
+public abstract class Target {
+
 }

@@ -9,8 +9,9 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	//dimensions
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 500;
+	public static final int DIM = 70;
+	public static final int WIDTH = DIM * 10;
+	public static final int HEIGHT = WIDTH;
 	
 	private Thread thread;
 	private boolean running;
@@ -42,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		
-		this.forest = new Forest(50);
+		this.forest = new Forest(DIM);
 
 		running = true;
 	}
@@ -65,11 +66,12 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println("Frame");
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed / 1000000;
-			
-			try {
-				thread.sleep(wait);
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			if (wait >= 0 ) {
+				try {
+					thread.sleep(wait);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 	}

@@ -5,9 +5,15 @@ public class LumberMill {
 	private int wood;
 	private int mawIncidents;
 	private Forest forest;
-	private final int LUMBERJACK_COST = 9;
-	public LumberMill(Forest forest) {
+	private Economy economy;
+	private double money;
+	
+	public LumberMill(Forest forest, Economy economy) {
 		this.wood = 0;
+		this.money = 1000;
+		
+		this.economy = economy;
+		
 		this.mawIncidents = 0;
 		this.forest = forest;
 	}
@@ -21,15 +27,27 @@ public class LumberMill {
 	}
 	
 	public void tick() {
-		//hiring lumberjacks
-		if (wood > 9) {
-			int numberToHire =  (int) wood / LUMBERJACK_COST; 
-			System.out.println("hired " + numberToHire + " lumberjacks");
-			for (int i=0; i<numberToHire;i++) {
-				forest.addLumberjack();
-				wood -= LUMBERJACK_COST;
-			}
+		//sell the wood
+		int woodcount = 0;
+		double moneycount = 0;
+		while(this.wood > 0) {
+			moneycount += economy.sellWood();
+			woodcount++;
+			this.wood--;
+			
 		}
+		this.money += moneycount;
+		System.out.println("Sold " + woodcount + " for " + moneycount + " coins.");
+		
+		//hire lumberjacks
+		int lumberjackcount = 0;
+		while(this.money > 1000.0) {
+			forest.addLumberjack();
+			this.money -= economy.buyLumberjack();
+			lumberjackcount++;
+		}
+		System.out.println("Hired " + lumberjackcount + " lumberjacks.");
+		
 		//need for a bear-hunt?
 		if (mawIncidents != 0) {
 			forest.removeBear();

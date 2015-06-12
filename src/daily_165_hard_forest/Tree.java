@@ -33,9 +33,11 @@ public class Tree {
 		if ((this.type == TreeType.TREE && Math.random() <=0.1) || (this.type == TreeType.ELDER && Math.random() <=0.2)) {
 			Pos[] adj = forest.getTile(this.pos).adjacentCells();
 			
+			boolean set = false;
 			for (Pos p: adj) {
-				if (!forest.getTile(p).hasTree(TreeType.ELDER) || !forest.getTile(p).hasTree(TreeType.SAPLING) || !forest.getTile(p).hasTree(TreeType.TREE)) {
+				if (!set && (!forest.getTile(p).hasTree(TreeType.ELDER) && !forest.getTile(p).hasTree(TreeType.SAPLING) && !forest.getTile(p).hasTree(TreeType.TREE))) {
 					forest.getTile(p).setTree(TreeType.SAPLING);
+					set = true;
 				}
 			}
 		}

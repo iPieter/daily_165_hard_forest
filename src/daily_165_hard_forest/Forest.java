@@ -12,6 +12,8 @@ public class Forest {
 	private ForestTile[][] grid;
 	private int dimension;
 	private LumberMill lumberMill;
+	private Economy economy;
+	
 	private int tick;
 	BufferedImage tileset;
 	
@@ -20,7 +22,8 @@ public class Forest {
 		grid = new ForestTile[dimension][dimension];
 		this.dimension = dimension;
 		this.tick = 0;
-		
+		this.economy = new Economy();
+
 		populate();
 		
 		loadTiles();
@@ -64,7 +67,7 @@ public class Forest {
 	
 	public void populate() {
 		//create a lumbermill, for managing the lumberjacks
-		lumberMill = new LumberMill(this);
+		lumberMill = new LumberMill(this, economy);
 		
 		//populates the grid with bears, trees and lumberjacks
 		for (int i = 0; i< dimension; i++) {
@@ -98,8 +101,11 @@ public class Forest {
 		
 		//tick the lumbermill each year
 		if (tick%12 == 0) {
+			this.economy.tick();
+
 			this.lumberMill.tick();
 		}
+		
 		this.tick++;
 	}
 	
@@ -152,7 +158,7 @@ public class Forest {
 	
 	public void loadTiles() {
 		try {
-			tileset = ImageIO.read(getClass().getResourceAsStream("/sprites/sprites.png"));
+			tileset = ImageIO.read(getClass().getResourceAsStream("/sprites/sprites_3.png"));
 			
 			
 		} catch (Exception ex) {

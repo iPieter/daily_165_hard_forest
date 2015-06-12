@@ -32,6 +32,13 @@ public class Lumberjack extends Movable {
 	@Override
 	public void addToTile(ForestTile tile) {
 		tile.setLumberjack(this);
+		
+	}
+
+
+	@Override
+	public boolean isClear(ForestTile tile) {
+		return !(tile.hasLumberjack());
 	}
 
 }

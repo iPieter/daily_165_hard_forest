@@ -14,6 +14,8 @@ public abstract class Movable {
 	
 	public abstract boolean hasTarget(ForestTile tile);
 	
+	public abstract boolean isClear(ForestTile tile);
+	
 	public abstract void removeFromTile(ForestTile tile);
 	
 	public abstract void addToTile(ForestTile tile);
@@ -22,30 +24,39 @@ public abstract class Movable {
 	
 	public void move(int steps, Forest forest, Movable sender) {
 		//this is the method for finding out the moving pad
-		for (int i=0; i< steps; i++) {
+		Pos moveTo = this.pos;
+		int i = 0;
+		boolean moved = false;
+		while (!moved && i < steps) {
 			//get an array of adjacent positions
-			Pos[] adj = forest.getTile(this.pos).getAdjacentCells();
-			
-			Pos moveTo = null;
+			Pos[] adj = forest.getTile(moveTo).getAdjacentCells();
+			Pos newPos = adj[(int) (Math.random() * (double) adj.length)];
 			
 			//check if there's a target 
-			for (Pos p : adj) {
-				if (sender.hasTarget(forest.getTile(p))) {
-					moveTo = p;
-				}
+			if (sender.hasTarget(forest.getTile(newPos)) && sender.isClear(forest.getTile(newPos))) {
+				forest.move(sender, newPos, true);
+				moved = true;
+			} if (sender.isClear(forest.getTile(newPos))) {
+				i++;
+				moveTo = newPos;
+			} else {
+				moved = true;
+				moveTo = null;
 			}
-			
-			if (moveTo == null ) {
-				moveTo = adj[(int) Math.random()*adj.length];
-			}
-			
-			forest.move(sender, moveTo);
+				
+		}
+		if (moveTo != null) {
+			forest.move(sender, moveTo, true);
 		}
 	}
 	
+
 	public void tick(Forest forest) {
 		move(forest);
 	}
 	
+	public void setPos(Pos p) {
+		this.pos = p;
+	}
 	
 }

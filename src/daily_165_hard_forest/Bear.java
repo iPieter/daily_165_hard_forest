@@ -26,5 +26,10 @@ public class Bear extends Movable {
 		tile.setBear(this);
 		
 	}
+
+	@Override
+	public boolean isClear(ForestTile tile) {
+		return !(tile.hasBear());
+	}
 	
 }

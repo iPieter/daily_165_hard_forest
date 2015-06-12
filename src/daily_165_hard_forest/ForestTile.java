@@ -25,8 +25,16 @@ public class ForestTile {
 		return (this.tree == null) ? (false) : (this.tree.getType().equals(type));
 	}
 	
+	public void setTree(TreeType type) {
+		this.tree = new Tree(type, pos);
+	}
+	
 	public boolean hasBear() {
 		return this.bear != null;
+	}
+	
+	public Pos getPos() {
+		return this.pos;
 	}
 	
 	public boolean hasLumberjack() {
@@ -51,12 +59,12 @@ public class ForestTile {
 		
 		//check if there is a tree, and cut it down
 		if (this.bear != null && this.lumberjack != null) {
-			//add the wood to the lumber mill
+			
 			this.lumberjack.getLumberMill().reportMaw();
 			
 			
 			//cut it down
-			this.tree = null;
+			this.lumberjack = null;
 		}
 	}
 	
@@ -115,6 +123,10 @@ public class ForestTile {
 		} else if (m.equals(this.bear)) {
 			this.bear = null;
 		}
+	}
+	
+	public String toString() {
+		return pos.toString() + " Bear: " + hasBear() + " Tree:" + hasTree(TreeType.TREE) + " Lumberjack: " + hasLumberjack();
 	}
 
 	public int getImage() {

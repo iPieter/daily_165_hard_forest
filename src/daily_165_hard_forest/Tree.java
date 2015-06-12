@@ -1,6 +1,6 @@
 package daily_165_hard_forest;
 
-public class Tree extends Target {
+public class Tree {
 	private TreeType type;
 	private int age;
 	
@@ -9,14 +9,14 @@ public class Tree extends Target {
 	Tree(Pos pos) {
 		this.age = 0;
 		this.type = TreeType.SAPLING;
+		this.pos = pos;
 	}
 	
 	Tree(TreeType type, Pos pos) {
 		this.age = 0;
 		this.type = type;
+		this.pos = pos;
 		
-		System.out.println("new tree " + pos.getX() + " " + pos.getY());
-
 	}
 	
 	public void tick(Forest forest) {
@@ -31,7 +31,13 @@ public class Tree extends Target {
 		
 		//spawn a sapling
 		if ((this.type == TreeType.TREE && Math.random() <=0.1) || (this.type == TreeType.ELDER && Math.random() <=0.2)) {
+			Pos[] adj = forest.getTile(this.pos).adjacentCells();
 			
+			for (Pos p: adj) {
+				if (!forest.getTile(p).hasTree(TreeType.ELDER) || !forest.getTile(p).hasTree(TreeType.SAPLING) || !forest.getTile(p).hasTree(TreeType.TREE)) {
+					forest.getTile(p).setTree(TreeType.SAPLING);
+				}
+			}
 		}
 	}
 	

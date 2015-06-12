@@ -46,14 +46,19 @@ public class Forest {
 		return grid[p.getX()][p.getY()];
 	}
 	
-	public void move(Movable m, Pos p) {
+	public void move(Movable m, Pos p, boolean remove) {
 		//this is the method that contains the actual moving logic
 		
-		//step 1: remove the movable from the old tile
-		m.removeFromTile(grid[m.getPos().getX()][m.getPos().getY()]);
+		//step 1: add the movable to the target tile
+		m.addToTile(grid[p.getX()][p.getY()]);		
 		
-		//step 2: add the movable to the target tile
-		m.addToTile(grid[p.getX()][p.getY()]);
+		//step 2: remove the movable from the old tile
+		if (remove) {
+			m.removeFromTile(grid[m.getPos().getX()][m.getPos().getY()]);
+		}
+		
+		m.setPos(p);
+
 		
 	}
 	
@@ -66,7 +71,7 @@ public class Forest {
 			for (int j = 0; j < dimension; j++) {
 				
 				//TODO: make a better grid populator
-				double rnd = Math.random();
+				double rnd = Math.random(); 
 				Pos p = new Pos(i,j);
 				if ( rnd <= 0.5 ) {
 					grid[i][j] = new ForestTile(p, new Tree(TreeType.TREE, p), null, null, this);
@@ -74,6 +79,8 @@ public class Forest {
 					grid[i][j] = new ForestTile(p, null, null, new Lumberjack(p, lumberMill), this);
 				} else if (rnd <= 0.62) {
 					grid[i][j] = new ForestTile(p, null, new Bear(p), null, this);
+				} else {
+					grid[i][j] = new ForestTile(p, null, null, null, this);
 				}
 				 
 				
@@ -89,25 +96,63 @@ public class Forest {
 			}
 		}
 		
-		//tick the lumbermill
-		this.lumberMill.tick();
-		
+		//tick the lumbermill each year
+		if (tick%12 == 0) {
+			this.lumberMill.tick();
+		}
 		this.tick++;
+	}
+	
+	public void addBear() {
+		Bear b = new Bear(null);
+		
+		int x = (int) (Math.random()  * (double) dimension);
+		int y = (int) (Math.random() * (double) dimension);
+			
+		move(b, grid[x][y].getPos(), false);
+			
+		
+				
+	}
+	
+	public void addLumberjack() {
+		Lumberjack l = new Lumberjack(null, lumberMill);
+		
+		int x = (int) (Math.random()  * (double) dimension);
+		int y = (int) (Math.random() * (double) dimension);
+			
+		move(l, grid[x][y].getPos(), false);
+			
+		
+				
+	}
+	
+	public void removeBear() {
+		boolean removed = false;
+		do {
+			int x = (int) (Math.random()  * (double) dimension);
+			int y = (int) (Math.random() * (double) dimension);
+			
+			if (grid[x][y].hasBear()) {
+				grid[x][y].setBear(null);
+				removed = true;
+			}
+			
+		} while (!removed);
 	}
 	
 	public void getImage(Graphics2D g) {
 		for (int i = 0; i< dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
 				g.drawImage(tileset.getSubimage(0, grid[i][j].getImage()*10, 10, 10), i *10, j *10, null);
-				
-				
 			}
 		}
+		
 	}
 	
 	public void loadTiles() {
 		try {
-			tileset = ImageIO.read(getClass().getResourceAsStream("/sprites.png"));
+			tileset = ImageIO.read(getClass().getResourceAsStream("/sprites/sprites.png"));
 			
 			
 		} catch (Exception ex) {

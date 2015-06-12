@@ -1,7 +1,5 @@
 package daily_165_hard_forest;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Event.*;
 
@@ -9,13 +7,14 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
 	
+	private static final long serialVersionUID = 1L;
 	//dimensions
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 500;
 	
 	private Thread thread;
 	private boolean running;
-	private int FPS = 30;
+	private int FPS = 20;
 	private long targetTime = 1000/FPS;
 	
 	private BufferedImage image;
@@ -29,7 +28,6 @@ public class GamePanel extends JPanel implements Runnable {
 		setFocusable(true);
 		requestFocus();
 		
-		this.forest = new Forest(50);
 	}
 	
 	public void addNotify() {
@@ -43,6 +41,9 @@ public class GamePanel extends JPanel implements Runnable {
 	private void init() {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
+		
+		this.forest = new Forest(50);
+
 		running = true;
 	}
 	
@@ -61,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
 			draw();
 			drawToScreen();
 			
+			System.out.println("Frame");
 			elapsed = System.nanoTime() - start;
 			wait = targetTime - elapsed / 1000000;
 			
@@ -77,7 +79,10 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 	private void draw() {
+		g.clearRect(0, 0, WIDTH, HEIGHT);
+		
 		forest.getImage(g);
+		
 	}
 	
 	private void drawToScreen() {

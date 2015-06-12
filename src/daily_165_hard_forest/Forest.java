@@ -1,11 +1,19 @@
 package daily_165_hard_forest;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+
 public class Forest {
 	
 	private ForestTile[][] grid;
 	private int dimension;
 	private LumberMill lumberMill;
 	private int tick;
+	BufferedImage tileset;
 	
 	Forest(int dimension) {
 		//create a forest with specified dimension
@@ -14,6 +22,8 @@ public class Forest {
 		this.tick = 0;
 		
 		populate();
+		
+		loadTiles();
 	}
 	
 	public int getDimension() {
@@ -72,16 +82,41 @@ public class Forest {
 	}
 	
 	public void tick() {
+		//tick each forest tile
 		for (ForestTile[] tileRow : grid) {
 			for (ForestTile tile : tileRow) {
 				tile.tick();
 			}
 		}
 		
+		//tick the lumbermill
+		this.lumberMill.tick();
+		
 		this.tick++;
+	}
+	
+	public void getImage(Graphics2D g) {
+		for (int i = 0; i< dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				g.drawImage(tileset.getSubimage(0, grid[i][j].getImage()*10, 10, 10), i *10, j *10, null);
+				
+				
+			}
+		}
+	}
+	
+	public void loadTiles() {
+		try {
+			tileset = ImageIO.read(getClass().getResourceAsStream("/sprites.png"));
+			
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public int getYear() {
 		return this.tick/12;
 	}
+
 }

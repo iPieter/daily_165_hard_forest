@@ -7,6 +7,7 @@ public class ForestTile {
 	
 	private Forest forest;
 	private Pos pos;
+	private Pos[] adjacentCells;
 	
 	ForestTile(Pos pos, Tree tree, Bear bear, Lumberjack lumberjack, Forest forest) {
 		this.tree = tree;
@@ -15,6 +16,9 @@ public class ForestTile {
 		
 		this.forest = forest;
 		this.pos = pos;
+		
+		//precalculate the adjacent cells, for preformance
+		this.adjacentCells = adjacentCells();
 	}
 	
 	public boolean hasTree(TreeType type) {
@@ -70,6 +74,9 @@ public class ForestTile {
 		}
 	}
 	
+	public Pos[] getAdjacentCells() {
+		return this.adjacentCells;
+	}
 	
 	public Pos[] adjacentCells() {
 		Pos[] adj;
@@ -108,5 +115,22 @@ public class ForestTile {
 		} else if (m.equals(this.bear)) {
 			this.bear = null;
 		}
+	}
+
+	public int getImage() {
+		if (this.bear == null && this.lumberjack == null && this.tree == null) {
+			return 0;
+		} else if (this.bear != null) {
+			return 5;
+		} else if (this.lumberjack != null ) {
+			return 4;
+		} else if (this.tree.getType() == TreeType.SAPLING) {
+			return 1;
+		} else if (this.tree.getType() == TreeType.TREE) {
+			return 2;
+		} else {
+			return 3;
+		}
+		
 	}
 }

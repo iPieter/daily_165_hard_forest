@@ -24,7 +24,7 @@ public abstract class Movable {
 		//this is the method for finding out the moving pad
 		for (int i=0; i< steps; i++) {
 			//get an array of adjacent positions
-			Pos[] adj = forest.getTile(this.pos).adjacentCells();
+			Pos[] adj = forest.getTile(this.pos).getAdjacentCells();
 			
 			Pos moveTo = null;
 			

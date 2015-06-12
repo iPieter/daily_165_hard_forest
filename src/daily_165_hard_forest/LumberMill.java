@@ -19,4 +19,10 @@ public class LumberMill {
 	public void reportMaw() {
 		this.mawIncidents[forest.getYear()]++;
 	}
+	
+	public void tick() {
+		//hiring lumberjacks
+		
+		//need for a bear-hunt?
+	}
 }

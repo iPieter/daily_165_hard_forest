@@ -1,5 +1,7 @@
 package daily_165_hard_forest;
 
+import java.awt.image.BufferedImage;
+
 public class ForestTile {
 	private Tree tree;
 	private Bear bear;
@@ -8,6 +10,7 @@ public class ForestTile {
 	private Forest forest;
 	private Pos pos;
 	private Pos[] adjacentCells;
+	private BufferedImage image;
 	
 	ForestTile(Pos pos, Tree tree, Bear bear, Lumberjack lumberjack, Forest forest) {
 		this.tree = tree;
@@ -19,6 +22,11 @@ public class ForestTile {
 		
 		//precalculate the adjacent cells, for preformance
 		this.adjacentCells = adjacentCells();
+		refreshTile();
+	}
+	
+	public void refreshTile() {
+		this.image = forest.getTileset().getSubimage(0, getImageId()*10, 10, 10);
 	}
 	
 	public boolean hasTree(TreeType type) {
@@ -52,6 +60,7 @@ public class ForestTile {
 			//cut it down
 			this.tree = null;
 		}
+		refreshTile();
 	}
 	
 	public void setBear(Bear b) {
@@ -66,6 +75,7 @@ public class ForestTile {
 			//cut it down
 			this.lumberjack = null;
 		}
+		refreshTile();
 	}
 	
 	public void tick() {
@@ -128,10 +138,14 @@ public class ForestTile {
 	public String toString() {
 		return pos.toString() + " Bear: " + hasBear() + " Tree:" + hasTree(TreeType.TREE) + " Lumberjack: " + hasLumberjack();
 	}
-
-	public int getImage() {
+	
+	public BufferedImage getImage() {
+		return this.image;
+	}
+	
+	public int getImageId() {
 		if (this.bear == null && this.lumberjack == null && this.tree == null) {
-			return 0;
+			return (Math.random() > 0.5? 0: 6);
 		} else if (this.bear != null) {
 			return 5;
 		} else if (this.lumberjack != null ) {

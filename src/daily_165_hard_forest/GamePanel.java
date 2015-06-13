@@ -9,13 +9,13 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	//dimensions
-	public static final int DIM = 70;
+	public static final int DIM = 50;
 	public static final int WIDTH = DIM * 10;
 	public static final int HEIGHT = WIDTH;
 	
 	private Thread thread;
 	private boolean running;
-	private int FPS = 20;
+	private int FPS = 30;
 	private long targetTime = 1000/FPS;
 	
 	private BufferedImage image;

@@ -5,26 +5,26 @@ public class Economy {
 	private double priceWood;
 	
 	public Economy() {
-		this.priceLumberjack = 6;
+		this.priceLumberjack = 10;
 		this.priceWood = 1.0;
 	}
 	
 	public double sellWood() {
-		this.priceWood -= 0.001;
+		this.priceWood -= 0.01;
 		if (this.priceWood <= 0) {
-			this.priceWood = 0.03;
+			this.priceWood = 0.02;
 		}
 		return this.priceWood;
 	}
 	
 	public double buyLumberjack() {
-		this.priceLumberjack += 0.3;
+		this.priceLumberjack += 10;
 		return this.priceLumberjack;
 	}
 	
 	public void tick() {
 		//TODO: beter pricing
-		this.priceLumberjack = 6;
+		this.priceLumberjack = 10;
 		this.priceWood = 1.0;
 	}
 	

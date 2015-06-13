@@ -37,6 +37,7 @@ public class LumberMill {
 			
 		}
 		this.money += moneycount;
+		System.out.println(forest.getYear());
 		System.out.println("Sold " + woodcount + " for " + moneycount + " coins.");
 		
 		//hire lumberjacks

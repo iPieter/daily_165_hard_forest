@@ -23,10 +23,10 @@ public class Forest {
 		this.dimension = dimension;
 		this.tick = 0;
 		this.economy = new Economy();
+		loadTiles();
 
 		populate();
 		
-		loadTiles();
 	}
 	
 	public int getDimension() {
@@ -150,7 +150,7 @@ public class Forest {
 	public void getImage(Graphics2D g) {
 		for (int i = 0; i< dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
-				g.drawImage(tileset.getSubimage(0, grid[i][j].getImage()*10, 10, 10), i *10, j *10, null);
+				g.drawImage(grid[i][j].getImage(), i *10, j *10, null);
 			}
 		}
 		
@@ -164,6 +164,10 @@ public class Forest {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public BufferedImage getTileset() {
+		return this.tileset;
 	}
 	
 	public int getYear() {
